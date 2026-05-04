@@ -1,5 +1,5 @@
 import { login, register } from "./auth.js";
-import { showError } from "./ui.js";
+import { showError, hideError } from "./ui.js";
 
 const showRegister = document.getElementById("show-register");
 const showLogin = document.getElementById("show-login");
@@ -8,16 +8,29 @@ const registerForm = document.getElementById("register-form");
 const registerSection = document.getElementById("register-section");
 const loginSection = document.getElementById("login-section");
 
+document.querySelectorAll('input').forEach(input => {
+  input.addEventListener('input', () => {
+    hideError('login-error');
+    hideError('register-error');
+  });
+});
+
 showRegister.addEventListener("click", (e) => {
   e.preventDefault();
   loginSection.classList.add("hidden");
   registerSection.classList.remove("hidden");
+  loginForm.reset();
+  hideError('login-error');
+  hideError('register-error');
 });
 
 showLogin.addEventListener("click", (e) => {
   e.preventDefault();
   loginSection.classList.remove("hidden");
   registerSection.classList.add("hidden");
+  registerForm.reset();
+  hideError('login-error');
+  hideError('register-error');
 });
 
 loginForm.addEventListener("submit", async (e) => {
