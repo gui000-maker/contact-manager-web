@@ -8,10 +8,10 @@ const registerForm = document.getElementById("register-form");
 const registerSection = document.getElementById("register-section");
 const loginSection = document.getElementById("login-section");
 
-document.querySelectorAll('input').forEach(input => {
-  input.addEventListener('input', () => {
-    hideError('login-error');
-    hideError('register-error');
+document.querySelectorAll("input").forEach((input) => {
+  input.addEventListener("input", () => {
+    hideError("login-error");
+    hideError("register-error");
   });
 });
 
@@ -20,8 +20,8 @@ showRegister.addEventListener("click", (e) => {
   loginSection.classList.add("hidden");
   registerSection.classList.remove("hidden");
   loginForm.reset();
-  hideError('login-error');
-  hideError('register-error');
+  hideError("login-error");
+  hideError("register-error");
 });
 
 showLogin.addEventListener("click", (e) => {
@@ -29,18 +29,18 @@ showLogin.addEventListener("click", (e) => {
   loginSection.classList.remove("hidden");
   registerSection.classList.add("hidden");
   registerForm.reset();
-  hideError('login-error');
-  hideError('register-error');
+  hideError("login-error");
+  hideError("register-error");
 });
 
 loginForm.addEventListener("submit", async (e) => {
+  console.log("Submitting login form");
   e.preventDefault();
   const formData = new FormData(loginForm);
   const username = formData.get("username");
   const password = formData.get("password");
   try {
-  await login(username, password);
-  showToast("Login successful!");
+    await login(username, password);
   } catch (err) {
     showError("login-error", getFriendlyError(err));
   }
@@ -53,7 +53,6 @@ registerForm.addEventListener("submit", async (e) => {
   const password = formData.get("password");
   try {
     await register(username, password);
-    showToast("Registration successful!");
   } catch (err) {
     showError("register-error", getFriendlyError(err));
   }
