@@ -1,5 +1,5 @@
 import { login, register } from "./auth.js";
-import { showError, hideError } from "./ui.js";
+import { showError, hideError, showToast, getFriendlyError } from "./ui.js";
 
 const showRegister = document.getElementById("show-register");
 const showLogin = document.getElementById("show-login");
@@ -40,8 +40,9 @@ loginForm.addEventListener("submit", async (e) => {
   const password = formData.get("password");
   try {
   await login(username, password);
+  showToast("Login successful!");
   } catch (err) {
-    showError("login-error", err.message);
+    showError("login-error", getFriendlyError(err.message));
   }
 });
 
@@ -52,7 +53,8 @@ registerForm.addEventListener("submit", async (e) => {
   const password = formData.get("password");
   try {
     await register(username, password);
+    showToast("Registration successful!");
   } catch (err) {
-    showError("register-error", err.message);
+    showError("register-error", getFriendlyError(err.message));
   }
 });
