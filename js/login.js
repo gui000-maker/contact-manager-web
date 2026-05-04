@@ -1,4 +1,5 @@
 import { login, register } from "./auth.js";
+import { showError } from "./ui.js";
 
 const showRegister = document.getElementById("show-register");
 const showLogin = document.getElementById("show-login");
@@ -24,7 +25,11 @@ loginForm.addEventListener("submit", async (e) => {
   const formData = new FormData(loginForm);
   const username = formData.get("username");
   const password = formData.get("password");
+  try {
   await login(username, password);
+  } catch (err) {
+    showError("login-error", err.message);
+  }
 });
 
 registerForm.addEventListener("submit", async (e) => {
@@ -32,5 +37,9 @@ registerForm.addEventListener("submit", async (e) => {
   const formData = new FormData(registerForm);
   const username = formData.get("username");
   const password = formData.get("password");
-  await register(username, password);
+  try {
+    await register(username, password);
+  } catch (err) {
+    showError("register-error", err.message);
+  }
 });
