@@ -34,7 +34,6 @@ showLogin.addEventListener("click", (e) => {
 });
 
 loginForm.addEventListener("submit", async (e) => {
-  console.log("Submitting login form");
   e.preventDefault();
   const formData = new FormData(loginForm);
   const username = formData.get("username");
