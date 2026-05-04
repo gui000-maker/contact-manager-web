@@ -42,7 +42,7 @@ loginForm.addEventListener("submit", async (e) => {
   await login(username, password);
   showToast("Login successful!");
   } catch (err) {
-    showError("login-error", getFriendlyError(err.message));
+    showError("login-error", getFriendlyError(err));
   }
 });
 
@@ -55,6 +55,6 @@ registerForm.addEventListener("submit", async (e) => {
     await register(username, password);
     showToast("Registration successful!");
   } catch (err) {
-    showError("register-error", getFriendlyError(err.message));
+    showError("register-error", getFriendlyError(err));
   }
 });

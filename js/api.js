@@ -39,7 +39,9 @@ async function request(endpoint, options = {}) {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || "An error occurred");
+    const error = new Error(errorData.message || "An error occurred");
+    error.status = response.status; // ← attach status code
+    throw error;
   }
 
   return response.status === 204 ? null : response.json();

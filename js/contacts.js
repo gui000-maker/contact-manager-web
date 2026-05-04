@@ -33,6 +33,6 @@ contactForm.addEventListener("submit", async (e) => {
     showToast("Contact added successfully!");
     contactForm.reset();
   } catch (err) {
-    showError("form-error", getFriendlyError(err.message));
+    showError("form-error", getFriendlyError(err));
   }
 });
