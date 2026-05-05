@@ -6,7 +6,7 @@ async function login(username, password) {
       method: "POST",
       body: JSON.stringify({ username, password }),
     });
-    localStorage.setItem("token", data.token);
+    localStorage.setItem("token", data.accessToken);
     localStorage.setItem("refreshToken", data.refreshToken);
     window.location.href = "/pages/contacts.html";
   } catch (err) {
