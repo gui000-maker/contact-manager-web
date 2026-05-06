@@ -1,17 +1,24 @@
-import { showError, hideError, showLoading, showToast } from "./ui.js";
+import { showError, hideError, showLoading, showToast, getFriendlyError } from "./ui.js";
 import { request } from "./api.js";
 import { logout, isLoggedIn } from "./auth.js";
 
 const contactForm = document.getElementById("contact-form");
+const searchInput = document.getElementById("search-input");
+const contactsList = document.getElementById("contacts-list");
+const logoutBtn = document.getElementById("logout-btn");
 
 if (!isLoggedIn()) {
   window.location.href = "/pages/login.html";
 }
 
-document.querySelectorAll('input').forEach(input => {
-  input.addEventListener('input', () => {
-    hideError('form-error');
+document.querySelectorAll("input").forEach((input) => {
+  input.addEventListener("input", () => {
+    hideError("form-error");
   });
+});
+
+logoutBtn.addEventListener("click", async () => {
+  await logout();
 });
 
 contactForm.addEventListener("submit", async (e) => {
