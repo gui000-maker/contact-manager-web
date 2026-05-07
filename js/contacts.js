@@ -57,20 +57,20 @@ contactForm.addEventListener("submit", async (e) => {
   }
 });
 
-searchInput.addEventListener("keydown", (e) => {
+searchInput.addEventListener("keydown", async (e) => {
   if (e.key === "Enter") {
     searchContacts(searchInput.value.trim());
   }
 });
 
-searchBtn.addEventListener("click", () => {
+searchBtn.addEventListener("click", async () => {
   searchContacts(searchInput.value.trim());
 });
 
-resetBtn.addEventListener("click", () => {
+resetBtn.addEventListener("click", async () => {
   searchInput.value = "";
   currentPage = 0;
-  loadContacts();
+  await loadContacts();
 });
 
 async function searchContacts(name) {
@@ -80,6 +80,7 @@ async function searchContacts(name) {
       `/contacts/search?name=${encodeURIComponent(name)}`,
     );
     renderContacts(data.content);
+    renderPagination(null);
   } catch (err) {
     showError("contacts-error", getFriendlyError(err));
   } finally {
@@ -107,6 +108,7 @@ function renderContacts(contacts = []) {
 }
 
 async function loadContacts(page = 0) {
+  currentPage = page;
   try {
     showLoading(true);
     const data = await request(`/contacts?page=${page}&size=10`);
@@ -134,14 +136,14 @@ function renderPagination(data) {
   nextBtn.disabled = data.last;
 }
 
-prevBtn.addEventListener("click", () => {
+prevBtn.addEventListener("click", async () => {
   currentPage--;
-  loadContacts(currentPage);
+  await loadContacts(currentPage);
 });
 
-nextBtn.addEventListener("click", () => {
+nextBtn.addEventListener("click", async () => {
   currentPage++;
-  loadContacts(currentPage);
+  await loadContacts(currentPage);
 });
 
 // Initialize page
