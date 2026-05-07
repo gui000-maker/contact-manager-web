@@ -1,14 +1,14 @@
-import { request } from './api.js';
+import { request } from "./api.js";
 
 async function login(username, password) {
   try {
-    const data = await request('/api/auth/login', {
-      method: 'POST',
+    const data = await request("/api/auth/login", {
+      method: "POST",
       body: JSON.stringify({ username, password }),
     });
-    localStorage.setItem('token', data.accessToken);
-    localStorage.setItem('refreshToken', data.refreshToken);
-    window.location.href = '/pages/contacts.html';
+    localStorage.setItem("token", data.accessToken);
+    localStorage.setItem("refreshToken", data.refreshToken);
+    window.location.href = "/pages/contacts.html";
   } catch (err) {
     throw err; // re-throw so login.js can catch and display it
   }
@@ -16,8 +16,8 @@ async function login(username, password) {
 
 async function register(username, password) {
   try {
-    await request('/api/auth/register', {
-      method: 'POST',
+    await request("/api/auth/register", {
+      method: "POST",
       body: JSON.stringify({ username, password }),
     });
     await login(username, password);
@@ -27,23 +27,23 @@ async function register(username, password) {
 }
 
 function isLoggedIn() {
-  return !!localStorage.getItem('token');
+  return !!localStorage.getItem("token");
 }
 
 async function logout() {
   try {
-    await request('/api/auth/logout', {
-      method: 'POST',
+    await request("/api/auth/logout", {
+      method: "POST",
       body: JSON.stringify({
-        refreshToken: localStorage.getItem('refreshToken'),
+        refreshToken: localStorage.getItem("refreshToken"),
       }),
     });
   } catch (error) {
-    console.error('Logout failed:', error);
+    console.error("Logout failed:", error);
   } finally {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    window.location.href = '/pages/login.html';
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    window.location.href = "/pages/login.html";
   }
 }
 

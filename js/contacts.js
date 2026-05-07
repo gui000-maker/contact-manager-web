@@ -19,6 +19,8 @@ const searchBtn = document.getElementById("search-btn");
 const resetBtn = document.getElementById("reset-btn");
 const contactsList = document.getElementById("contacts-list");
 
+let currentPage = 0;
+
 document.querySelectorAll("input").forEach((input) => {
   input.addEventListener("input", () => {
     hideError("form-error");
@@ -100,10 +102,10 @@ function renderContacts(contacts = []) {
   });
 }
 
-async function loadContacts() {
+async function loadContacts(page = 0) {
   try {
     showLoading(true);
-    const data = await request("/contacts");
+    const data = await request("/contacts?page=${page}&size=10");
     renderContacts(data.content);
   } catch (err) {
     showError("contacts-error", getFriendlyError(err));
