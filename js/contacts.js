@@ -18,6 +18,9 @@ const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
 const resetBtn = document.getElementById("reset-btn");
 const contactsList = document.getElementById("contacts-list");
+const prevBtn = document.getElementById("prev-btn");
+const nextBtn = document.getElementById("next-btn");
+const pageInfo = document.getElementById("page-info");
 
 let currentPage = 0;
 
@@ -66,6 +69,7 @@ searchBtn.addEventListener("click", () => {
 
 resetBtn.addEventListener("click", () => {
   searchInput.value = "";
+  currentPage = 0;
   loadContacts();
 });
 
@@ -105,14 +109,40 @@ function renderContacts(contacts = []) {
 async function loadContacts(page = 0) {
   try {
     showLoading(true);
-    const data = await request("/contacts?page=${page}&size=10");
+    const data = await request(`/contacts?page=${page}&size=10`);
     renderContacts(data.content);
+    renderPagination(data);
   } catch (err) {
     showError("contacts-error", getFriendlyError(err));
   } finally {
     showLoading(false);
   }
 }
+
+function renderPagination(data) {
+  if (!data || data.totalPages <= 1) {
+    pageInfo.textContent = "";
+    prevBtn.style.display = "none";
+    nextBtn.style.display = "none";
+    return;
+  }
+
+  prevBtn.style.display = "inline-block";
+  nextBtn.style.display = "inline-block";
+  pageInfo.textContent = `Page ${data.number + 1} of ${data.totalPages}`;
+  prevBtn.disabled = data.first;
+  nextBtn.disabled = data.last;
+}
+
+prevBtn.addEventListener("click", () => {
+  currentPage--;
+  loadContacts(currentPage);
+});
+
+nextBtn.addEventListener("click", () => {
+  currentPage++;
+  loadContacts(currentPage);
+});
 
 // Initialize page
 loadContacts();
